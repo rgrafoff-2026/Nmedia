@@ -1,6 +1,7 @@
 package ru.netology.nmedia.activity
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -15,14 +16,14 @@ import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.util.AndroidUtils
 import ru.netology.nmedia.viewmodel.PostViewModel
 
-
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val viewModel: PostViewModel by viewModels()
+
         val adapter = PostsAdapter(object : OnInteractionListener {
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
@@ -38,23 +40,37 @@ class MainActivity : AppCompatActivity() {
             override fun onLike(post: Post) {
                 viewModel.likeById(post.id)
             }
+
             override fun onShare(post: Post) {
                 viewModel.shareById(post.id)
             }
+
             override fun onRemove(post: Post) {
                 viewModel.removeById(post.id)
             }
         })
+
         binding.list.adapter = adapter
+
         viewModel.data.observe(this) { posts ->
             adapter.submitList(posts)
         }
 
         viewModel.edited.observe(this) { post ->
             if (post.id != 0L) {
+                // Режим редактирования активен - показываем панель
+                binding.editModeGroup.visibility = View.VISIBLE
                 with(binding.content) {
                     setText(post.content)
                     AndroidUtils.showKeyboard(this)
+                }
+            } else {
+                // Режим редактирования не активен - скрываем панель
+                binding.editModeGroup.visibility = View.GONE
+                with(binding.content) {
+                    setText("")
+                    clearFocus()
+                    AndroidUtils.hideKeyboard(this)
                 }
             }
         }
@@ -69,13 +85,15 @@ class MainActivity : AppCompatActivity() {
                     ).show()
                     return@setOnClickListener
                 }
-
                 viewModel.save(text.toString())
-
                 setText("")
                 clearFocus()
                 AndroidUtils.hideKeyboard(this)
             }
+        }
+
+        binding.cancelEdit.setOnClickListener {
+            viewModel.cancelEdit()
         }
     }
 }
