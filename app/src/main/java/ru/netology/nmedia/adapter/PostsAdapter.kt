@@ -2,6 +2,7 @@ package ru.netology.nmedia.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -9,28 +10,30 @@ import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 
-typealias OnLikeListener = (post: Post) -> Unit
-typealias OnShareListener = (post: Post) -> Unit
+interface OnInteractionListener {
+    fun onLike(post: Post) {}
+    fun onEdit(post: Post) {}
+    fun onRemove(post: Post) {}
+    fun onShare(post: Post) {}
+}
 
 class PostsAdapter(
-    private val onLikeListener: OnLikeListener,
-    private val onShareListener: OnShareListener
-) : ListAdapter<Post, PostViewHolder>(PostDiffCallback()) {
-
+    private val onInteractionListener: OnInteractionListener,
+) : ListAdapter<Post, PostViewHolder>(PostDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PostViewHolder(binding, onLikeListener, onShareListener)
+        return PostViewHolder(binding, onInteractionListener)
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val post = getItem(position)
+        holder.bind(post)
     }
 }
 
 class PostViewHolder(
     private val binding: CardPostBinding,
-    private val onLikeListener: OnLikeListener,
-    private val onShareListener: OnShareListener
+    private val onInteractionListener: OnInteractionListener,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(post: Post) {
@@ -38,45 +41,43 @@ class PostViewHolder(
             author.text = post.author
             published.text = post.published
             content.text = post.content
+            likeCount.text = post.likes.toString()
+            like.setImageResource(
+                if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_like_24
+            )
 
-
-            likeCount.text = formatCount(post.likes)
-            shareCount.text = formatCount(post.shares)
-            viewsCount.text = formatCount(post.views)
-
-
-            if (post.likedByMe) {
-                like.setImageResource(R.drawable.ic_liked_24)
-            } else {
-                like.setImageResource(R.drawable.ic_like_24)
+            menu.setOnClickListener {
+                PopupMenu(it.context, it).apply {
+                    inflate(R.menu.options_post)
+                    setOnMenuItemClickListener { item ->
+                        when (item.itemId) {
+                            R.id.remove -> {
+                                onInteractionListener.onRemove(post)
+                                true
+                            }
+                            R.id.edit -> {
+                                onInteractionListener.onEdit(post)
+                                true
+                            }
+                            else -> false
+                        }
+                    }
+                }.show()
             }
 
-            like.setOnClickListener { onLikeListener(post) }
-            share.setOnClickListener { onShareListener(post) }
-        }
-    }
-
-
-    private fun formatCount(count: Int): String {
-        return when {
-            count < 1_000 -> count.toString()
-            count < 10_000 -> {
-                val thousands = count / 1_000
-                val hundreds = (count % 1_000) / 100
-                if (hundreds == 0) "${thousands}K" else "$thousands.$hundreds" + "K"
+            like.setOnClickListener {
+                onInteractionListener.onLike(post)
             }
-            count < 1_000_000 -> "${count / 1_000}K"
-            else -> {
-                val millions = count / 1_000_000
-                val hundredThousands = (count % 1_000_000) / 100_000
-                if (hundredThousands == 0) "${millions}M" else "$millions.$hundredThousands" + "M"
+
+            share.setOnClickListener {
+                onInteractionListener.onShare(post)
             }
         }
     }
 }
 
+object PostDiffCallback : DiffUtil.ItemCallback<Post>() {
 
-class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
     override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
         return oldItem.id == newItem.id
     }
@@ -84,4 +85,5 @@ class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
     override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
         return oldItem == newItem
     }
+
 }
