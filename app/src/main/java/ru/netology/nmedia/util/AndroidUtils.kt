@@ -1,17 +1,16 @@
 package ru.netology.nmedia.util
 
-import android.content.Context
+import android.app.Activity
 import android.view.View
 import android.view.ViewTreeObserver.OnWindowFocusChangeListener
-import android.view.inputmethod.InputMethodManager
+import androidx.core.view.WindowInsetsControllerCompat
 
 object AndroidUtils {
     fun hideKeyboard(view: View) {
-        val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
+        val controller = getWindowInsetsController(view)
+        controller?.hide(androidx.core.view.WindowInsetsCompat.Type.ime())
     }
 
-    // thanks to https://stackoverflow.com/a/68925063/1219012
     fun showKeyboard(view: View) {
         view.requestFocus()
         if (view.hasWindowFocus()) {
@@ -30,8 +29,12 @@ object AndroidUtils {
 
     private fun showKeyboardNow(view: View) {
         if (!view.isFocused) return
+        val controller = getWindowInsetsController(view)
+        controller?.show(androidx.core.view.WindowInsetsCompat.Type.ime())
+    }
 
-        val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+        private fun getWindowInsetsController(view: View): WindowInsetsControllerCompat? {
+        val activity = view.context as? Activity ?: return null
+        return WindowInsetsControllerCompat(activity.window, view)
     }
 }

@@ -7,14 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
 
-    <!-- Группа для режима редактирования -->
     <androidx.constraintlayout.widget.Group
         android:id="@+id/editModeGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="editModeContainer" />
 
-    <!-- Контейнер с информацией о редактировании и крестиком -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/editModeContainer"
         android:layout_width="match_parent"
@@ -58,7 +56,9 @@
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/toolsTop"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/editModeContainer"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="181dp"
         tools:listitem="@layout/card_post" />
 
     <androidx.constraintlayout.widget.Barrier

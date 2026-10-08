@@ -13,5 +13,7 @@
     <string name="edit_message">Edit Message</string>
     <string name="default_share_count">Five</string>
     <string name="default_views_count">Five</string>
+    <string name="description_post_views">Views</string>
+    <string name="_5" translatable="false">5</string>
 
 </resources>
