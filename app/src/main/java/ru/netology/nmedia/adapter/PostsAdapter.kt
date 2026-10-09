@@ -43,16 +43,13 @@ class PostViewHolder(
             published.text = post.published
             content.text = post.content
 
-            // 👇 Устанавливаем текст ПРЯМО на кнопки MaterialButton
             like.text = formatCount(post.likes)
             share.text = formatCount(post.shares)
             views.text = formatCount(post.views)
 
-            // Смена иконки лайка
             val iconRes = if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_like_24
             like.icon = ContextCompat.getDrawable(like.context, iconRes)
 
-            // Меню (три точки)
             menu.setOnClickListener { view ->
                 PopupMenu(view.context, view).apply {
                     inflate(R.menu.options_post)
@@ -77,7 +74,6 @@ class PostViewHolder(
         }
     }
 
-    // Функция форматирования чисел (1000 → 1K, 1500 → 1.5K, 1000000 → 1M)
     private fun formatCount(count: Int): String {
         return when {
             count < 1_000 -> count.toString()

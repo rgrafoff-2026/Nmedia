@@ -1,5 +1,6 @@
 // PostRepositoryInMemoryImpl.kt
 package ru.netology.nmedia.repository
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.dto.Post
@@ -14,8 +15,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             published = "21 мая в 18:36",
             likes = 10,
             likedByMe = false,
-            shares = 5,   // 👈 ДОБАВЛЕНО
-            views = 150   // 👈 ДОБАВЛЕНО
+            shares = 5,
+            views = 150
         ),
         Post(
             id = nextId++,
@@ -24,8 +25,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             published = "18 сентября в 10:12",
             likes = 20,
             likedByMe = false,
-            shares = 2,   // 👈 ДОБАВЛЕНО
-            views = 300   // 👈 ДОБАВЛЕНО
+            shares = 2,
+            views = 300
         ),
         Post(
             id = nextId++,
@@ -34,8 +35,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             published = "04 апреля в 07:07",
             likes = 1499,
             likedByMe = false,
-            shares = 7,   // 👈 ДОБАВЛЕНО
-            views = 999   // 👈 ДОБАВЛЕНО
+            shares = 7,
+            views = 999
         )
     )
     private val data = MutableLiveData(posts)
@@ -52,7 +53,12 @@ class PostRepositoryInMemoryImpl : PostRepository {
     }
 
     override fun likeById(id: Long) {
-        posts = posts.map { if (it.id != id) it else it.copy(likedByMe = !it.likedByMe, likes = if (it.likedByMe) it.likes - 1 else it.likes + 1) }
+        posts = posts.map {
+            if (it.id != id) it else it.copy(
+                likedByMe = !it.likedByMe,
+                likes = if (it.likedByMe) it.likes - 1 else it.likes + 1
+            )
+        }
         data.value = posts
     }
 

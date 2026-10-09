@@ -31,7 +31,6 @@ class IntentHandlerActivity : AppCompatActivity() {
                     .setAction(android.R.string.ok) { finish() }.show()
                 return@let
             }
-            // ✅ РЕАЛИЗАЦИЯ TODO: Передаем текст в MainActivity
             val intent = Intent(this, MainActivity::class.java).apply {
                 putExtra("EXTRA_SHARED_TEXT", text)
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
