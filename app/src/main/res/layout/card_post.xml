@@ -85,7 +85,6 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="content" />
 
-    <!-- Кнопка Like (текст задаётся прямо на кнопке) -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/like"
         style="@style/Widget.AppTheme.LikeButton"
@@ -96,10 +95,8 @@
         app:icon="@drawable/ic_like_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/footer"
-        tools:checked="@sample/posts.json/data/likedByMe"
         tools:text="10" />
 
-    <!-- Кнопка Share (текст задаётся прямо на кнопке) -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/share"
         style="@style/Widget.AppTheme.IconButton"
@@ -109,9 +106,9 @@
         android:contentDescription="@string/description_post_share"
         app:icon="@drawable/ic_share_24"
         app:layout_constraintStart_toEndOf="@id/like"
-        app:layout_constraintTop_toTopOf="@id/like" />
+        app:layout_constraintTop_toTopOf="@id/like"
+        tools:text="5" />
 
-    <!-- Кнопка Views (текст задаётся прямо на кнопке) -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/views"
         style="@style/Widget.AppTheme.IconButton"
@@ -121,6 +118,7 @@
         android:contentDescription="@string/description_post_views"
         app:icon="@drawable/ic_views_24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/like" />
+        app:layout_constraintTop_toTopOf="@id/like"
+        tools:text="100" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
