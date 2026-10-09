@@ -20,9 +20,9 @@
         android:background="#FFF3E0"
         android:padding="8dp"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/editModeText"
@@ -31,10 +31,10 @@
             android:text="@string/edit_message"
             android:textColor="#E65100"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/cancelEdit" />
+            app:layout_constraintEnd_toStartOf="@id/cancelEdit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/cancelEdit"
@@ -43,11 +43,10 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/edit_message"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:tint="#E65100" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -56,10 +55,7 @@
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/toolsTop"
-        app:layout_constraintTop_toTopOf="@id/editModeContainer"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="181dp"
-        tools:listitem="@layout/card_post" />
+        app:layout_constraintTop_toBottomOf="@id/editModeContainer" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/toolsTop"
@@ -88,10 +84,20 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/common_spacing"
         android:background="@android:color/transparent"
-        android:contentDescription="@string/description_post_like"
+        android:contentDescription="@string/description_post_save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/content"
         app:srcCompat="@drawable/ic_save_48" />
-</androidx.constraintlayout.widget.ConstraintLayout>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:contentDescription="@string/add_post"
+        app:layout_constraintBottom_toTopOf="@id/toolsTop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_add_24" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

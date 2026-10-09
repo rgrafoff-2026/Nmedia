@@ -15,4 +15,5 @@
     <string name="error_empty_content">Контент не может быть пустым</string>
     <string name="edit_message">Отменить изменения</string>
     <string name="description_post_views">Просмотры</string>
+    <string name="_5">5</string>
 </resources>

@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="edit_mode_background">#FFF3E0</color>
     <color name="edit_mode_text">#E65100</color>
-</resources>
+    <color name="ic_launcher_background">#FFFFFF</color>
+    </resources>
