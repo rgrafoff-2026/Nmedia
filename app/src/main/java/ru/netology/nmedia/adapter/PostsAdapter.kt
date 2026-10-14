@@ -53,7 +53,6 @@ class PostViewHolder(
             val iconRes = if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_like_24
             like.icon = ContextCompat.getDrawable(like.context, iconRes)
 
-            // Логика для видео
             if (!post.video.isNullOrBlank()) {
                 videoContainer.visibility = View.VISIBLE
                 videoContainer.setOnClickListener {
