@@ -1,4 +1,3 @@
-// PostRepositoryInMemoryImpl.kt
 package ru.netology.nmedia.repository
 
 import androidx.lifecycle.LiveData
@@ -16,7 +15,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             likes = 10,
             likedByMe = false,
             shares = 5,
-            views = 150
+            views = 150,
+            video = "https://rutube.ru/video/6550a91e7e523f9503bed47e4c46d0cb"
         ),
         Post(
             id = nextId++,
@@ -26,7 +26,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             likes = 20,
             likedByMe = false,
             shares = 2,
-            views = 300
+            views = 300,
+            video = null
         ),
         Post(
             id = nextId++,
@@ -36,9 +37,20 @@ class PostRepositoryInMemoryImpl : PostRepository {
             likes = 1499,
             likedByMe = false,
             shares = 7,
-            views = 999
+            views = 999,
+            video = null
+        ),
+        Post(
+            id = nextId++,
+            author = "Нетология. Университет интернет-профессий будущего",
+            content = "Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу...",
+            published = "21 мая в 18:36",
+            likes = 10,
+            likedByMe = false,
+            video = null
         )
-    )
+    ).reversed()
+
     private val data = MutableLiveData(posts)
 
     override fun getAll(): LiveData<List<Post>> = data
@@ -54,7 +66,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
 
     override fun likeById(id: Long) {
         posts = posts.map {
-            if (it.id != id) it else it.copy(
+            if (it.id != id) it
+            else it.copy(
                 likedByMe = !it.likedByMe,
                 likes = if (it.likedByMe) it.likes - 1 else it.likes + 1
             )
