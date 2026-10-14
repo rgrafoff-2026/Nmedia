@@ -5,15 +5,18 @@ import android.content.Context
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContract
 
-object NewPostResultContract : ActivityResultContract<Unit, String?>() {
+object NewPostResultContract : ActivityResultContract<String, String?>() {
+    override fun createIntent(context: Context, input: String): Intent {
+        return Intent(context, NewPostActivity::class.java).apply {
+            putExtra(Intent.EXTRA_TEXT, input) // Передаем текст (пустой или существующий)
+        }
+    }
 
-    override fun createIntent(context: Context, input: Unit): Intent =
-        Intent(context, NewPostActivity::class.java)
-
-    override fun parseResult(resultCode: Int, intent: Intent?): String? =
-        if (resultCode == Activity.RESULT_OK) {
+    override fun parseResult(resultCode: Int, intent: Intent?): String? {
+        return if (resultCode == Activity.RESULT_OK) {
             intent?.getStringExtra(Intent.EXTRA_TEXT)
         } else {
             null
         }
+    }
 }
