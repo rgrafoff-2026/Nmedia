@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -77,42 +78,12 @@
         app:layout_constraintTop_toBottomOf="@id/header"
         tools:text="@sample/posts.json/data/content" />
 
-    <!-- Блок для видео с картинкой-заглушкой и кнопкой Play -->
-    <FrameLayout
-        android:id="@+id/videoContainer"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="@dimen/common_spacing"
-        android:background="#33000000"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/content"
-        tools:visibility="visible">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/video_placeholder_1" />
-
-        <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center"
-            android:src="@android:drawable/ic_media_play"
-            app:tint="@android:color/white" />
-    </FrameLayout>
-
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/footer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="content,videoContainer" />
+        app:constraint_referenced_ids="content" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/like"
@@ -123,16 +94,7 @@
         android:contentDescription="@string/description_post_like"
         app:icon="@drawable/ic_like_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/footer" />
-
-    <TextView
-        android:id="@+id/likeCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/text_spacing"
-        app:layout_constraintBottom_toBottomOf="@id/like"
-        app:layout_constraintStart_toEndOf="@id/like"
-        app:layout_constraintTop_toTopOf="@id/like"
+        app:layout_constraintTop_toBottomOf="@id/footer"
         tools:text="10" />
 
     <com.google.android.material.button.MaterialButton
@@ -143,17 +105,8 @@
         android:layout_marginStart="@dimen/common_spacing"
         android:contentDescription="@string/description_post_share"
         app:icon="@drawable/ic_share_24"
-        app:layout_constraintStart_toEndOf="@id/likeCount"
-        app:layout_constraintTop_toTopOf="@id/like" />
-
-    <TextView
-        android:id="@+id/shareCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/text_spacing"
-        app:layout_constraintBottom_toBottomOf="@id/share"
-        app:layout_constraintStart_toEndOf="@id/share"
-        app:layout_constraintTop_toTopOf="@id/share"
+        app:layout_constraintStart_toEndOf="@id/like"
+        app:layout_constraintTop_toTopOf="@id/like"
         tools:text="5" />
 
     <com.google.android.material.button.MaterialButton
@@ -164,17 +117,8 @@
         android:clickable="false"
         android:contentDescription="@string/description_post_views"
         app:icon="@drawable/ic_views_24"
-        app:layout_constraintEnd_toStartOf="@id/viewsCount"
-        app:layout_constraintTop_toTopOf="@id/like" />
-
-    <TextView
-        android:id="@+id/viewsCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/text_spacing"
-        app:layout_constraintBottom_toBottomOf="@id/views"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/views"
+        app:layout_constraintTop_toTopOf="@id/like"
         tools:text="100" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
