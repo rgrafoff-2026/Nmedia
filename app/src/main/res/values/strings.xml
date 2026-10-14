@@ -8,12 +8,13 @@
     <string name="description_post_share">Share</string>
     <string name="description_post_views">Views</string>
     <string name="description_post_save">Save</string>
+    <string name="description_post_video" translatable="false">Open video</string>
     <string name="menu_remove">Remove</string>
     <string name="menu_edit">Edit</string>
     <string name="post_text">Post Text</string>
     <string name="error_empty_content">Content can\'t be empty</string>
-    <string name="chooser_share_post">Share post</string>
-    <string name="add_post">Add post</string>
-    <string name="save">Save</string>
+    <string name="chooser_share_post" translatable="false">Share post</string>
+    <string name="add_post" translatable="false">Add post</string>
+    <string name="save" translatable="false">Save</string>
     <string name="edit_message">Edit Message</string>
 </resources>

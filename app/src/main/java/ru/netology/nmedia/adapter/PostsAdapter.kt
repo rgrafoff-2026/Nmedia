@@ -1,6 +1,9 @@
 package ru.netology.nmedia.adapter
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
@@ -43,12 +46,23 @@ class PostViewHolder(
             published.text = post.published
             content.text = post.content
 
-            like.text = formatCount(post.likes)
-            share.text = formatCount(post.shares)
-            views.text = formatCount(post.views)
+            likeCount.text = post.likes.toString()
+            shareCount.text = post.shares.toString()
+            viewsCount.text = post.views.toString()
 
             val iconRes = if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_like_24
             like.icon = ContextCompat.getDrawable(like.context, iconRes)
+
+            // Логика для видео
+            if (!post.video.isNullOrBlank()) {
+                videoContainer.visibility = View.VISIBLE
+                videoContainer.setOnClickListener {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
+                    it.context.startActivity(intent)
+                }
+            } else {
+                videoContainer.visibility = View.GONE
+            }
 
             menu.setOnClickListener { view ->
                 PopupMenu(view.context, view).apply {
@@ -71,23 +85,6 @@ class PostViewHolder(
 
             like.setOnClickListener { onInteractionListener.onLike(post) }
             share.setOnClickListener { onInteractionListener.onShare(post) }
-        }
-    }
-
-    private fun formatCount(count: Int): String {
-        return when {
-            count < 1_000 -> count.toString()
-            count < 10_000 -> {
-                val thousands = count / 1_000
-                val hundreds = (count % 1_000) / 100
-                if (hundreds == 0) "${thousands}K" else "$thousands.$hundreds" + "K"
-            }
-            count < 1_000_000 -> "${count / 1_000}K"
-            else -> {
-                val millions = count / 1_000_000
-                val hundredThousands = (count % 1_000_000) / 100_000
-                if (hundredThousands == 0) "${millions}M" else "$millions.$hundredThousands" + "M"
-            }
         }
     }
 }
