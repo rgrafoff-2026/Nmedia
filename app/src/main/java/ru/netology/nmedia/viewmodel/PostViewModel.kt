@@ -1,38 +1,43 @@
 package ru.netology.nmedia.viewmodel
 
-import androidx.lifecycle.*
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.repository.PostRepository
-import ru.netology.nmedia.repository.PostRepositoryInMemoryImpl
+import ru.netology.nmedia.repository.PostRepositoryFileImpl
 
-private val empty = Post(
-    id = 0,
-    author = "",
-    content = "",
-    published = "",
-    likes = 0,
-    likedByMe = false,
-    shares = 0,
-    views = 0
-)
+class PostViewModel(application: Application) : AndroidViewModel(application) {
 
-class PostViewModel : ViewModel() {
-    private val repository: PostRepository = PostRepositoryInMemoryImpl()
-    val data = repository.getAll()
-    val edited = MutableLiveData(empty)
+
+    private val repository: PostRepository = PostRepositoryFileImpl(application.applicationContext)
+
+    val data: LiveData<List<Post>> = repository.getAll()
+
+    private val _edited = MutableLiveData<Post>()
+    val edited: LiveData<Post> = _edited
+
+    init {
+        _edited.value = Post(0, "", "", "", 0, false, 0, 0, null, null)
+    }
 
     fun save(content: String) {
-        edited.value?.let {
+        _edited.value?.let { currentPost ->
             val text = content.trim()
-            if (it.content != text) {
-                repository.save(it.copy(content = text))
+            if (currentPost.content != text) {
+                repository.save(currentPost.copy(content = text))
             }
         }
-        edited.value = empty
+        _edited.value = Post(0, "", "", "", 0, false, 0, 0, null, null)
     }
 
     fun edit(post: Post) {
-        edited.value = post
+        _edited.value = post
+    }
+
+    fun createNew() {
+        _edited.value = Post(0, "", "", "", 0, false, 0, 0, null, null)
     }
 
     fun likeById(id: Long) = repository.likeById(id)

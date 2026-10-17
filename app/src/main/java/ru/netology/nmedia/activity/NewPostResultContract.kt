@@ -8,7 +8,7 @@ import androidx.activity.result.contract.ActivityResultContract
 object NewPostResultContract : ActivityResultContract<String, String?>() {
     override fun createIntent(context: Context, input: String): Intent {
         return Intent(context, NewPostActivity::class.java).apply {
-            putExtra(Intent.EXTRA_TEXT, input) // Передаем текст (пустой или существующий)
+            putExtra(Intent.EXTRA_TEXT, input)
         }
     }
 

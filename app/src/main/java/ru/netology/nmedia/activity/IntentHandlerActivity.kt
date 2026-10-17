@@ -1,4 +1,5 @@
 package ru.netology.nmedia.activity
+
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -25,12 +26,15 @@ class IntentHandlerActivity : AppCompatActivity() {
 
         intent?.let {
             if (it.action != Intent.ACTION_SEND) return@let
+
             val text = it.getStringExtra(Intent.EXTRA_TEXT)
             if (text.isNullOrBlank()) {
                 Snackbar.make(binding.root, R.string.error_empty_content, LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok) { finish() }.show()
+                    .setAction(android.R.string.ok) { finish() }
+                    .show()
                 return@let
             }
+
             val intent = Intent(this, MainActivity::class.java).apply {
                 putExtra("EXTRA_SHARED_TEXT", text)
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)

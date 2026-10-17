@@ -25,7 +25,7 @@ class NewPostActivity : AppCompatActivity() {
 
         val initialText = intent.getStringExtra(Intent.EXTRA_TEXT) ?: ""
         binding.edit.setText(initialText)
-        binding.edit.setSelection(initialText.length) // Курсор в конец
+        binding.edit.setSelection(initialText.length)
 
         AndroidUtils.showKeyboard(binding.edit)
 

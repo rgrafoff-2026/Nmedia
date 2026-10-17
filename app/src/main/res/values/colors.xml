@@ -5,4 +5,5 @@
     <color name="edit_mode_background">#FFF3E0</color>
     <color name="edit_mode_text">#E65100</color>
     <color name="ic_launcher_background">#FFFFFF</color>
-    </resources>
+    <color name="like_checkbox_tint">#FFEA4335</color>
+</resources>
